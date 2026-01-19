@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Order System</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #fdfaf6; color: #4b3621; }
+        .order-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 450px; margin: auto; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; }
+        select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .radio-group { display: flex; gap: 20px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        
+        /* Summary Box Styling */
+        .summary-box { background: #6f4e37; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .summary-box h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #ffffff55; padding-bottom: 5px; }
+        .summary-item { display: flex; justify-content: space-between; font-size: 0.9em; margin: 5px 0; }
+        
+        button { width: 100%; background: #4a332d; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #2e1f1c; }
+    </style>
+</head>
+<body>
+
+<div class="order-card">
+    <h2 style="text-align: center;">☕ Place Your Order</h2>
+
+    <div class="input-group">
+        <label>Your Name</label>
+        <input type="text" id="customer-name" placeholder="Enter name" oninput="updateSummary()">
+    </div>
+
+    <div class="input-group">
+        <label>Select Drink</label>
+        <select id="menu-item" onchange="updateSummary()">
+            <option value="Signature Latte" data-price="4.00">Signature Latte</option>
+            <option value="Americano" data-price="3.00">Americano</option>
+            <option value="Iced Tea" data-price="3.50">Thai Iced Tea</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Type</label>
+        <div class="radio-group">
+            <label><input type="radio" name="temp" value="Hot" checked onchange="updateSummary()"> Hot</label>
+            <label><input type="radio" name="temp" value="Cold" onchange="updateSummary()"> Cold</label>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Extra Shot?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="extra" value="No" checked onchange="updateSummary()"> No</label>
+            <label><input type="radio" name="extra" value="Yes" onchange="updateSummary()"> Yes (+ $0.50)</label>
+        </div>
+    </div>
+
+    <div class="summary-box">
+        <h3>Order Summary</h3>
+        <div class="summary-item"><span>Drink:</span> <span id="sum-drink">-</span></div>
+        <div class="summary-item"><span>Options:</span> <span id="sum-options">-</span></div>
+        <div class="summary-item" style="font-weight: bold; margin-top: 10px; border-top: 1px solid #ffffff55; padding-top: 5px;">
+            <span>Total:</span> <span id="sum-total">$0.00</span>
+        </div>
+    </div>
+
+    <button onclick="submitOrder()" id="submit-btn">Send Order</button>
+</div>
+
+<script>
+    function updateSummary() {
+        const menu = document.getElementById('menu-item');
+        const drinkName = menu.value;
+        const basePrice = parseFloat(menu.options[menu.selectedIndex].getAttribute('data-price'));
+        const type = document.querySelector('input[name="temp"]:checked').value;
+        const extra = document.querySelector('input[name="extra"]:checked').value;
+        
+        let finalPrice = basePrice;
+        if (extra === "Yes") finalPrice += 0.50;
+
+        document.getElementById('sum-drink').innerText = drinkName;
+        document.getElementById('sum-options').innerText = `${type} | Extra Shot: ${extra}`;
+        document.getElementById('sum-total').innerText = `$${finalPrice.toFixed(2)}`;
+        
+        return { drinkName, type, extra, finalPrice };
+    }
+
+    // Initialize summary on load
+    updateSummary();
+
+    function submitOrder() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby60bplHB1RoFFSzGyqN8Bq5-ZZ14_zWxA9ZjjIkLa6XsVkM4buCLsfy54lcPhhLiUSQQ/exec'; 
+        const name = document.getElementById('customer-name').value;
+        const summary = updateSummary();
+
+        if (!name) {
+            alert("Please enter your name before ordering.");
+            return;
+        }
+
+        const data = {
+            customer: name,
+            menuItem: summary.drinkName,
+            type: summary.type,
+            extraShot: summary.extra,
+            total: summary.finalPrice.toFixed(2)
+        };
+
+        const btn = document.getElementById('submit-btn');
+        btn.innerText = "Sending Order...";
+        btn.disabled = true;
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(data)
+        }).then(() => {
+            alert("Success! Your order for " + summary.drinkName + " has been sent.");
+            window.location.reload();
+        }).catch(err => {
+            alert("Error sending order.");
+            btn.disabled = false;
+        });
+    }
+</script>
+</body>
+</html>
