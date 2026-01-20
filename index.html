@@ -60,6 +60,21 @@
         </div>
     </div>
 
+    <div class="input-group">
+        <label>Sweetness Level</label>
+        <select id="sweetness" onchange="updateSummary()">
+            <option value="Normal Sweet">Normal Sweet (100%)</option>
+            <option value="Less Sweet">Less Sweet (50%)</option>
+            <option value="No Sugar">No Sugar (0%)</option>
+            <option value="Extra Sweet">Extra Sweet (125%)</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Special Instructions</label>
+        <textarea id="notes" placeholder="Serve at the class etc." oninput="updateSummary()"></textarea>
+    </div>
+
     <div class="summary-box">
         <h3>Order Summary</h3>
         <div class="summary-item"><span>Drink:</span> <span id="sum-drink">-</span></div>
@@ -80,6 +95,7 @@
         
         const type = document.querySelector('input[name="temp"]:checked').value;
         const extra = document.querySelector('input[name="extra"]:checked').value;
+        const sweetness = document.getElementById('sweetness').value;
         
         // Price Logic
         let finalPrice = basePrice;
@@ -88,7 +104,7 @@
 
         // Update UI
         document.getElementById('sum-drink').innerText = drinkName;
-        document.getElementById('sum-options').innerText = `${type} | Extra Shot: ${extra}`;
+        document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness} | Extra Shot: ${extra}`;
         document.getElementById('sum-total').innerText = `${finalPrice} baht`;
         
         return { drinkName, type, extra, finalPrice };
@@ -98,7 +114,7 @@
     updateSummary();
 
     function submitOrder() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby60bplHB1RoFFSzGyqN8Bq5-ZZ14_zWxA9ZjjIkLa6XsVkM4buCLsfy54lcPhhLiUSQQ/exec'; // REPLACED WITH YOUR URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyNDUe2QtuBQV54hjXsUsf_D28vvosTd86XGtmAPiW84B_OjegvWEOv7t1F7TaENy0T9g/exec'; // REPLACED WITH YOUR URL
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary();
 
@@ -112,6 +128,8 @@
             menuItem: summary.drinkName,
             type: summary.type,
             extraShot: summary.extra,
+            sweetness: document.getElementById('sweetness').value, 
+            notes: document.getElementById('notes').value,         
             total: summary.finalPrice + " baht"
         };
 
