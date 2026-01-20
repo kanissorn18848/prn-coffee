@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Shop Ordering</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #fdfaf6; color: #4b3621; }
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #c6dbef; color: #4b3621; }
         .order-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 450px; margin: auto; }
         .input-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; }
         select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .radio-group { display: flex; gap: 20px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
         
-        .summary-box { background: #6f4e37; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .summary-box { background: #3182bd; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .summary-box h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #ffffff55; padding-bottom: 5px; }
         .summary-item { display: flex; justify-content: space-between; font-size: 0.9em; margin: 5px 0; }
         
-        button { width: 100%; background: #4a332d; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #2e1f1c; }
+        button { width: 100%; background: #08519c; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #003468; }
         button:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
 <div class="order-card">
-    <h2 style="text-align: center;">☕ Small Shop Menu</h2>
+    <h2 style="text-align: center;">☕ PRN Coffee</h2>
 
     <div class="input-group">
         <label>Customer Name</label>
@@ -34,10 +34,10 @@
     <div class="input-group">
         <label>Select Drink</label>
         <select id="menu-item" onchange="updateSummary()">
-            <option value="Signature Latte" data-price="30">Signature Latte - 30฿</option>
-            <option value="Dark & Bold" data-price="35">Dark & Bold - 35฿</option>
-            <option value="Thai-Style" data-price="35">Thai-Style - 35฿</option>
-            <option value="Morning Black" data-price="20">Morning Black - 20฿</option>
+            <option value="Signature Latte" data-price="30">Signature Latte</option>
+            <option value="Dark & Bold" data-price="35">Dark & Bold</option>
+            <option value="Thai-Style" data-price="35">Thai-Style</option>
+            <option value="Morning Black" data-price="20">Morning Black</option>
         </select>
     </div>
 
