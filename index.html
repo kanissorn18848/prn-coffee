@@ -14,6 +14,14 @@
         label { display: block; font-weight: 600; margin-bottom: 8px; }
         select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .radio-group { display: flex; gap: 20px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .subheading {
+            text-align: center;
+            font-size: 0.9em; /* Makes it smaller than the title */
+            color: #3c4093;    /* A softer blue color */
+            margin-top: -15px; /* Pulls it closer to the main title */
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
         
         .summary-box { background: #3182bd; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .summary-box h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #ffffff55; padding-bottom: 5px; }
@@ -28,6 +36,7 @@
 
 <div class="order-card">
     <h2 style="text-align: center;">☕ PRN Coffee</h2>
+    <p class="subheading">Freshly brewed coffee for your daily boost</p>
 
     <div class="input-group">
         <label>Customer Name</label>
@@ -72,7 +81,7 @@
 
     <div class="input-group">
         <label>Special Instructions</label>
-        <textarea id="notes" placeholder="Serve at the class etc." oninput="updateSummary()"></textarea>
+        <input type="text" id="notes" placeholder="Serve at the class etc." oninput="updateSummary()">
     </div>
 
     <div class="summary-box">
