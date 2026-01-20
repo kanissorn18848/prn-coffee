@@ -30,6 +30,18 @@
         button { width: 100%; background: #08519c; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         button:hover { background: #003468; }
         button:disabled { background: #ccc; cursor: not-allowed; }
+        /* Style for the clear button to make it look different from the submit button */
+        button[onclick="clearForm()"] {
+            background: #dcdcdc;
+            color: #333;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        
+        button[onclick="clearForm()"]:hover {
+            background: #c0c0c0;
+        }
     </style>
 </head>
 <body>
@@ -72,16 +84,20 @@
     <div class="input-group">
         <label>Sweetness Level</label>
         <select id="sweetness" onchange="updateSummary()">
-            <option value="Normal Sweet">Normal Sweet (100%)</option>
-            <option value="Less Sweet">Less Sweet (50%)</option>
-            <option value="No Sugar">No Sugar (0%)</option>
-            <option value="Extra Sweet">Extra Sweet (125%)</option>
+            <option value="100%">Normal Sweet (100%)</option>
+            <option value="50%">Less Sweet (50%)</option>
+            <option value="0%">No Sugar (0%)</option>
+            <option value="125%">Extra Sweet (125%)</option>
         </select>
     </div>
 
     <div class="input-group">
         <label>Special Instructions</label>
         <input type="text" id="notes" placeholder="Serve at the class etc." oninput="updateSummary()">
+    </div>
+
+    <div class="input-group">
+        <button type="button" onclick="clearForm()" style="background: #e0e0e0; color: #21224a; margin-bottom: 10px;">Clear Form</button>
     </div>
 
     <div class="summary-box">
@@ -121,7 +137,16 @@
 
     // Initialize summary on load
     updateSummary();
-
+    function clearForm() {
+        document.getElementById('customer-name').value = '';
+        document.getElementById('menu-item').selectedIndex = 0;
+        document.querySelector('input[name="temp"][value="Hot"]').checked = true;
+        document.querySelector('input[name="extra"][value="No"]').checked = true;
+        document.getElementById('sweetness').selectedIndex = 0;
+        document.getElementById('notes').value = '';
+        
+        updateSummary();
+    }
     function submitOrder() {
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyNDUe2QtuBQV54hjXsUsf_D28vvosTd86XGtmAPiW84B_OjegvWEOv7t1F7TaENy0T9g/exec'; // REPLACED WITH YOUR URL
         const name = document.getElementById('customer-name').value;
