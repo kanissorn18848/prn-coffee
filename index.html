@@ -177,8 +177,6 @@
 </div>
 
 <script>
-    // SET YOUR STATUS HERE: true = Open, false = Closed
-    const isShopOpen = false; 
     function applyBusinessStatus() {
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
@@ -207,7 +205,7 @@
             display.innerText = "We'll be back soon...";
             return; // Stop the function here
         }
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwr3CiknlrMxvBMs1poQvjMfxQ4timsCNJJAXjZ-Jin3NXSlzEYibszL_gmUt83e723AQ/exec';
         try {
             const response = await fetch(scriptURL);
             const status = await response.json();
@@ -267,7 +265,7 @@
         updateSummary();
     }
     async function submitOrder() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwr3CiknlrMxvBMs1poQvjMfxQ4timsCNJJAXjZ-Jin3NXSlzEYibszL_gmUt83e723AQ/exec';
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary(); // Your existing summary logic
         
@@ -286,7 +284,7 @@
             const response = await fetch(scriptURL);
             const status = await response.json();
 
-            if (!isShopOpen) {
+            if (!status.isOpen) {
             alert("Sorry! The order is closed for now. Please check back tomorrow");
             window.location.reload();
             return; // Stop the function here
