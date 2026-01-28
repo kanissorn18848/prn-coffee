@@ -177,6 +177,7 @@
 </div>
 
 <script>
+    let isShopOpen = true; // Default to open, will be updated by Google Sheets
     function applyBusinessStatus() {
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
@@ -200,36 +201,43 @@
     }
 }
     async function checkDailyStock() {
-        if (!isShopOpen) {
-            const display = document.getElementById('cups-left');
-            display.innerText = "We'll be back soon...";
-            return; // Stop the function here
-        }
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwr3CiknlrMxvBMs1poQvjMfxQ4timsCNJJAXjZ-Jin3NXSlzEYibszL_gmUt83e723AQ/exec';
+        
         try {
             const response = await fetch(scriptURL);
             const status = await response.json();
             
+            // --- NEW: Update the master variable from the Google Sheet ---
+            isShopOpen = status.isOpen; 
+            applyBusinessStatus(); // Run this again to update the UI based on the sheet
+            
             const display = document.getElementById('cups-left');
             const submitBtn = document.getElementById('submit-btn');
     
+            if (!isShopOpen) {
+                display.innerText = "We'll be back soon...";
+                return;
+            }
+    
             if (status.isSoldOut) {
-                display.innerText = "❌ Sold out for today!";
+                display.innerText = "❌ Sold out for tomorrow!";
                 submitBtn.disabled = true;
-                submitBtn.innerText = "Check back tomorrow";
+                submitBtn.innerText = "Check back later";
             } else {
                 display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
             }
         } catch (e) {
-            console.log("Could not load stock status");
+            console.log("Could not load status from sheet");
         }
     }
     
     // Call this when the page loads
     window.onload = function() {
-        applyBusinessStatus(); // Your existing function
-        checkDailyStock();     // The new stock checker
+        // We only call checkDailyStock. 
+        // It will call applyBusinessStatus() once it gets the data from Google.
+        checkDailyStock();
     };
+    
     function updateSummary() {
         const menu = document.getElementById('menu-item');
         const drinkName = menu.value;
