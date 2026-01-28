@@ -177,7 +177,8 @@
 </div>
 
 <script>
-let isShopOpen = true; // Default to open, will be updated by Google Sheets
+    // SET YOUR STATUS HERE: true = Open, false = Closed
+    const isShopOpen = true; 
     function applyBusinessStatus() {
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
@@ -201,37 +202,36 @@ let isShopOpen = true; // Default to open, will be updated by Google Sheets
     }
 }
     async function checkDailyStock() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzhaEIB4cMOj5pwAaw6JeofaUdHrTMq_NR4zZIruWGjgwLhUZnTXLxYGvjZNapGh0_a/exec';
-        
+        if (!isShopOpen) {
+            const display = document.getElementById('cups-left');
+            display.innerText = "We'll be back soon...";
+            return; // Stop the function here
+        }
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxx13plSV36AcZYLVAX3r19S5hUnOqazmRerCNSnz4R86eiOO2y3rZCgOIOlxuSMt-uQw/exec';
         try {
             const response = await fetch(scriptURL);
             const status = await response.json();
             
-            // 1. Update the global variable with real data from the sheet
-            isShopOpen = status.isOpen; 
-    
-            // 2. Now that we have the data, update the UI colors/text
-            applyBusinessStatus(); 
-            
             const display = document.getElementById('cups-left');
             const submitBtn = document.getElementById('submit-btn');
     
-            // 3. Handle the stock display logic
-            if (!isShopOpen) {
-                display.innerText = "We'll be back soon...";
-            } else if (status.isSoldOut) {
-                display.innerText = "❌ Sold out for tomorrow!";
+            if (status.isSoldOut) {
+                display.innerText = "❌ Sold out for today!";
                 submitBtn.disabled = true;
-                submitBtn.innerText = "Sold Out";
+                submitBtn.innerText = "Check back tomorrow";
             } else {
                 display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
             }
         } catch (e) {
-            console.error("Could not load status from Google Sheets", e);
-            document.getElementById('cups-left').innerText = "Status temporarily unavailable";
+            console.log("Could not load stock status");
         }
     }
     
+    // Call this when the page loads
+    window.onload = function() {
+        applyBusinessStatus(); // Your existing function
+        checkDailyStock();     // The new stock checker
+    };
     function updateSummary() {
         const menu = document.getElementById('menu-item');
         const drinkName = menu.value;
@@ -267,10 +267,10 @@ let isShopOpen = true; // Default to open, will be updated by Google Sheets
         updateSummary();
     }
     async function submitOrder() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzhaEIB4cMOj5pwAaw6JeofaUdHrTMq_NR4zZIruWGjgwLhUZnTXLxYGvjZNapGh0_a/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxx13plSV36AcZYLVAX3r19S5hUnOqazmRerCNSnz4R86eiOO2y3rZCgOIOlxuSMt-uQw/exec';
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary(); // Your existing summary logic
-        
+    
         if (!name) {
             alert("Please enter your name.");
             return;
@@ -285,13 +285,7 @@ let isShopOpen = true; // Default to open, will be updated by Google Sheets
             // Fetch current stock from the sheet right now
             const response = await fetch(scriptURL);
             const status = await response.json();
-
-            if (!status.isOpen) {
-            alert("Sorry! The order is closed for now. Please check back tomorrow");
-            window.location.reload();
-            return; // Stop the function here
-            }
-            
+    
             if (status.isSoldOut) {
                 alert("Sorry! Someone just grabbed the last cup. We are now sold out for today.");
                 window.location.reload(); // Refresh to show the 'Sold Out' state
