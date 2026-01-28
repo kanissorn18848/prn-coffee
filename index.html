@@ -270,12 +270,6 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary(); // Your existing summary logic
-    
-        if (!isShopOpen) {
-            alert("Sorry! The order is closed for now. Please check back tomorrow");
-            window.location.reload();
-            return; // Stop the function here
-        }
         
         if (!name) {
             alert("Please enter your name.");
@@ -291,7 +285,13 @@
             // Fetch current stock from the sheet right now
             const response = await fetch(scriptURL);
             const status = await response.json();
-    
+
+            if (!isShopOpen) {
+            alert("Sorry! The order is closed for now. Please check back tomorrow");
+            window.location.reload();
+            return; // Stop the function here
+            }
+            
             if (status.isSoldOut) {
                 alert("Sorry! Someone just grabbed the last cup. We are now sold out for today.");
                 window.location.reload(); // Refresh to show the 'Sold Out' state
