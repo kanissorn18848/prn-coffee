@@ -39,6 +39,22 @@
         .explanation {margin-bottom: 15px; line-height: 1.4; color: #555;}
         .menu-descriptions {border-top: 1px solid #eee; padding-top: 10px;}
         .desc-item {margin-bottom: 5px; color: #4b3621;}
+
+        .status-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+        }
+        .dot {height: 10px; width: 10px; border-radius: 50%; display: inline-block;}
+        /* Colors for the status */
+        .dot.open { background-color: #4CAF50; box-shadow: 0 0 8px #4CAF50; }
+        .dot.closed { background-color: #f44336; box-shadow: 0 0 8px #f44336; }
+        .text-closed { color: #f44336; }
+        .text-open { color: #4CAF50; }
         
         button { width: 100%; background: #08519c; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         button:hover { background: #003468; }
@@ -64,9 +80,16 @@
     <h2 style="text-align: center;">☕ PRN Coffee</h2>
     <p class="subheading"><i>Pro re nata</i>&nbsp; (Latin) "as needed"<br>
     PRN coffee - Personalized coffee as needed for you</p>
+    <div class="status-container">
+        <span id="status-dot" class="dot"></span>
+        <span id="status-text">Open for order!</span>
+    </div>
+    <div class="stock-indicator">
+        <span id="cups-left">Checking stock...</span>
+    </div>
     <div class="shop-info">
         <div class="hours">
-            <strong>🕒 Today's Schedule</strong> Library delivery ~ 10.00 am
+            <strong>🕒 Tomorrow's Schedule</strong> Library delivery ~ 10.00 am
         </div>
         <p class="explanation">
             Order before 11pm, then enjoy your coffee in class the next day!
@@ -147,6 +170,54 @@
 </div>
 
 <script>
+    // SET YOUR STATUS HERE: true = Open, false = Closed
+    const isShopOpen = true; 
+    function applyBusinessStatus() {
+        const dot = document.getElementById('status-dot');
+        const text = document.getElementById('status-text');
+        const submitBtn = document.getElementById('submit-btn');
+    
+        if (isShopOpen) {
+            dot.className = 'dot open';
+            text.innerText = 'Open for order!';
+            text.className = 'text-open';
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Place Order';
+        } else {
+            dot.className = 'dot closed';
+            text.innerText = 'Ordering is currently unavailable 🙏';
+            text.className = 'text-closed';
+            submitBtn.disabled = true;
+            submitBtn.style.background = '#ccc';
+            submitBtn.innerText = 'Orders Currently Disabled';
+        }
+    }
+    async function checkDailyStock() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
+        try {
+            const response = await fetch(scriptURL);
+            const status = await response.json();
+            
+            const display = document.getElementById('cups-left');
+            const submitBtn = document.getElementById('submit-btn');
+    
+            if (status.isSoldOut) {
+                display.innerText = "❌ Sold out for today!";
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Check back tomorrow";
+            } else {
+                display.innerText = `☕ ${status.remaining} cups left for today`;
+            }
+        } catch (e) {
+            console.log("Could not load stock status");
+        }
+    }
+    
+    // Call this when the page loads
+    window.onload = function() {
+        applyBusinessStatus(); // Your existing function
+        checkDailyStock();     // The new stock checker
+    };
     function updateSummary() {
         const menu = document.getElementById('menu-item');
         const drinkName = menu.value;
@@ -182,7 +253,7 @@
         updateSummary();
     }
     function submitOrder() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyNDUe2QtuBQV54hjXsUsf_D28vvosTd86XGtmAPiW84B_OjegvWEOv7t1F7TaENy0T9g/exec'; // REPLACED WITH YOUR URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec'; // REPLACED WITH YOUR URL
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary();
 
