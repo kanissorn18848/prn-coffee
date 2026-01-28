@@ -29,6 +29,7 @@
             font-size: 0.9em;
             justify-content: center;
             gap: 8px;
+            padding: 10px;
         }
         
         .summary-box { background: #3182bd; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
@@ -197,13 +198,13 @@
             submitBtn.disabled = true;
             submitBtn.style.background = '#ccc';
             submitBtn.innerText = 'Orders Currently Disabled';
-            stockDisplay.innerText = "We'll come back soon"; // Show this instead of "Checking..."
+            stockDisplay.innerText = "We'll be back soon"; // Show this instead of "Checking..."
     }
 }
     async function checkDailyStock() {
         if (!isShopOpen) {
             const display = document.getElementById('cups-left');
-            display.innerText = "We'll come back soon";
+            display.innerText = "We'll be back soon";
             return; // Stop the function here
         }
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
