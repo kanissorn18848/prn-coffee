@@ -111,7 +111,7 @@
         </div>
     </div>
     <div class="stock-indicator">
-        <span id="cups-left">Checking stock...</span>
+        <span id="cups-left">Checking status...</span>
     </div>
     <div class="input-group">
         <label>Customer Name</label>
@@ -223,7 +223,7 @@
                 display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
             }
         } catch (e) {
-            console.log("Could not load stock status");
+            console.log("Could not load order status");
         }
     }
     
@@ -270,7 +270,12 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary(); // Your existing summary logic
-    
+
+        if (!isShopOpen) {
+            alert("Sorry! The order is closed for now. Please check back tomorrow");
+            window.location.reload();
+            return; // Stop the function here
+            
         if (!name) {
             alert("Please enter your name.");
             return;
@@ -292,7 +297,7 @@
                 return;
             }
         } catch (e) {
-            console.error("Stock check failed, but proceeding anyway.");
+            console.error("Status check failed, but proceeding anyway.");
             // We let it proceed here just in case your internet blipped
         }
         // --- END OF SAFETY CHECK ---
