@@ -23,6 +23,13 @@
             margin-bottom: 25px;
             font-weight: 400;
         }
+        .stock-indicator {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+            justify-content: center;
+            gap: 8px;
+        }
         
         .summary-box { background: #3182bd; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .summary-box h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #ffffff55; padding-bottom: 5px; }
@@ -84,9 +91,6 @@
         <span id="status-dot" class="dot"></span>
         <span id="status-text">Open for order!</span>
     </div>
-    <div class="stock-indicator">
-        <span id="cups-left">Checking stock...</span>
-    </div>
     <div class="shop-info">
         <div class="hours">
             <strong>🕒 Tomorrow's Schedule</strong> Library delivery ~ 10.00 am
@@ -105,7 +109,9 @@
             <div class="desc-item"><strong>💊 The Dopamine Loop <i>(Mocha)</i> :</strong> Our signature mocha designed for long study sessions.</div>
         </div>
     </div>
-    
+    <div class="stock-indicator">
+        <span id="cups-left">Checking stock...</span>
+    </div>
     <div class="input-group">
         <label>Customer Name</label>
         <input type="text" id="customer-name" placeholder="Enter your name" oninput="updateSummary()">
@@ -176,23 +182,30 @@
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
         const submitBtn = document.getElementById('submit-btn');
+        const stockDisplay = document.getElementById('cups-left'); // Get the stock display element
     
         if (isShopOpen) {
             dot.className = 'dot open';
             text.innerText = 'Open for order!';
             text.className = 'text-open';
             submitBtn.disabled = false;
-            submitBtn.innerText = 'Place Order';
+            // checkDailyStock() will handle the button text if it's open
         } else {
             dot.className = 'dot closed';
-            text.innerText = 'Ordering is currently unavailable 🙏';
+            text.innerText = 'Shop is closed 🙏';
             text.className = 'text-closed';
             submitBtn.disabled = true;
             submitBtn.style.background = '#ccc';
             submitBtn.innerText = 'Orders Currently Disabled';
-        }
+            stockDisplay.innerText = "We'll come back soon"; // Show this instead of "Checking..."
     }
+}
     async function checkDailyStock() {
+        if (!isShopOpen) {
+            const display = document.getElementById('cups-left');
+            display.innerText = "We'll come back soon";
+            return; // Stop the function here
+        }
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
         try {
             const response = await fetch(scriptURL);
@@ -206,7 +219,7 @@
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Check back tomorrow";
             } else {
-                display.innerText = `☕ ${status.remaining} cups left for today`;
+                display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
             }
         } catch (e) {
             console.log("Could not load stock status");
