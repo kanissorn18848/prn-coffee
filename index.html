@@ -178,7 +178,7 @@
 
 <script>
     // SET YOUR STATUS HERE: true = Open, false = Closed
-    const isShopOpen = false; 
+    const isShopOpen = true; 
     function applyBusinessStatus() {
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
@@ -198,13 +198,13 @@
             submitBtn.disabled = true;
             submitBtn.style.background = '#ccc';
             submitBtn.innerText = 'Orders Currently Disabled';
-            stockDisplay.innerText = "We'll be back soon"; // Show this instead of "Checking..."
+            stockDisplay.innerText = "We'll be back soon..."; // Show this instead of "Checking..."
     }
 }
     async function checkDailyStock() {
         if (!isShopOpen) {
             const display = document.getElementById('cups-left');
-            display.innerText = "We'll be back soon";
+            display.innerText = "We'll be back soon...";
             return; // Stop the function here
         }
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwgdLa-XSgk0uELxyp1zDpYmod1xtO6_XpLWHsyubVnt54gksLjrjWPDoUW7BQPjo9EUA/exec';
