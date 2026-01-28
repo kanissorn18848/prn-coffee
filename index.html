@@ -27,6 +27,18 @@
         .summary-box { background: #3182bd; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .summary-box h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #ffffff55; padding-bottom: 5px; }
         .summary-item { display: flex; justify-content: space-between; font-size: 0.9em; margin: 5px 0; }
+        .shop-info {
+        background: #fdfaf6;
+        border-left: 4px solid #6f4e37;
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        }
+        .hours {color: #4a332d; margin-bottom: 10px;}
+        .explanation {margin-bottom: 15px; line-height: 1.4; color: #555;}
+        .menu-descriptions {border-top: 1px solid #eee; padding-top: 10px;}
+        .desc-item {margin-bottom: 5px; color: #4b3621;}
         
         button { width: 100%; background: #08519c; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         button:hover { background: #003468; }
@@ -43,6 +55,7 @@
         button[onclick="clearForm()"]:hover {
             background: #c0c0c0;
         }
+        
     </style>
 </head>
 <body>
@@ -51,7 +64,24 @@
     <h2 style="text-align: center;">☕ PRN Coffee</h2>
     <p class="subheading"><i>Pro re nata</i>&nbsp; (Latin) "as needed"<br>
     PRN coffee - Personalized coffee as needed for you</p>
-
+    <div class="shop-info">
+        <div class="hours">
+            <strong>🕒 Today's Schedule</strong> Library delivery ~ 10.00 am
+        </div>
+        <p class="explanation">
+            Order before 11pm, then enjoy your coffee in class the next day!
+            Payment on Delivery. Make sure you're not late to class :)
+        </p>
+        
+        <div class="menu-descriptions">
+            <div class="desc-item"><strong>🥛 Signature Latte:</strong> Sweetened with condensed milk for a smooth finish.</div>
+            <div class="desc-item"><strong>🖤 Dark & Bold:</strong> A strong, straightforward kick for early class.</div>
+            <div class="desc-item"><strong>🧡 Thai-Style:</strong> A nostalgic, extra-creamy local favorite with a bold kick and deep sweetness.</div>
+            <div class="desc-item"><strong>☀️ Morning Black:</strong> Pure caffeine for the early class. Clean, light, and effective.</div>
+            <div class="desc-item"><strong>💊 The Dopamine Loop:</strong> Our signature mocha designed for long study sessions.</div>
+        </div>
+    </div>
+    
     <div class="input-group">
         <label>Customer Name</label>
         <input type="text" id="customer-name" placeholder="Enter your name" oninput="updateSummary()">
@@ -64,13 +94,14 @@
             <option value="Dark & Bold" data-price="35">Dark & Bold</option>
             <option value="Thai-Style" data-price="35">Thai-Style</option>
             <option value="Morning Black" data-price="20">Morning Black</option>
+            <option value="The Dopamine Loop" data-price="35">The Dopamine Loop</option>
         </select>
     </div>
 
     <div class="input-group">
         <label>Type</label>
         <div class="radio-group">
-            <label><input type="radio" name="temp" value="Hot" checked onchange="updateSummary()"> Hot (+0฿)</label>
+            <!-- <label><input type="radio" name="temp" value="Hot" checked onchange="updateSummary()"> Hot (+0฿)</label> Remove Hot option-->
             <label><input type="radio" name="temp" value="Cold" onchange="updateSummary()"> Cold (+5฿)</label>
         </div>
     </div>
@@ -178,7 +209,7 @@
             mode: 'no-cors',
             body: JSON.stringify(data)
         }).then(() => {
-            alert("Order sent! Thank you, " + name);
+            alert("Order sent! Thank you, " + name + ". See you tomorrow at the class!");
             window.location.reload();
         }).catch(err => {
             alert("Error sending order. Please check your internet.");
