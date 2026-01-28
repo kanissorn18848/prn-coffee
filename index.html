@@ -111,7 +111,7 @@
         </div>
     </div>
     <div class="stock-indicator">
-        <span id="cups-left">Checking status...</span>
+        <span id="cups-left">Checking stock...</span>
     </div>
     <div class="input-group">
         <label>Customer Name</label>
@@ -223,7 +223,7 @@
                 display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
             }
         } catch (e) {
-            console.log("Could not load order status");
+            console.log("Could not load stock status");
         }
     }
     
@@ -297,7 +297,7 @@
                 return;
             }
         } catch (e) {
-            console.error("Status check failed, but proceeding anyway.");
+            console.error("Stock check failed, but proceeding anyway.");
             // We let it proceed here just in case your internet blipped
         }
         // --- END OF SAFETY CHECK ---
