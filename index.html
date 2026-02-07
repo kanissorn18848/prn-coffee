@@ -146,6 +146,14 @@
     </div>
 
     <div class="input-group">
+        <label>Change to Oat Milk?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="oat" value="No" checked onchange="updateSummary()"> No</label>
+            <label><input type="radio" name="oat" value="Yes" onchange="updateSummary()"> Yes (+5฿)</label>
+        </div>
+    </div>
+
+    <div class="input-group">
         <label>Sweetness Level</label>
         <select id="sweetness" onchange="updateSummary()">
             <option value="100%">Normal Sweet (100%)</option>
@@ -207,7 +215,7 @@
             display.innerText = "We'll be back soon...";
             return; // Stop the function here
         }
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxx13plSV36AcZYLVAX3r19S5hUnOqazmRerCNSnz4R86eiOO2y3rZCgOIOlxuSMt-uQw/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEe7hZVjMtQaDWyfNaQD_IsJGBWX6EvN7tRZWJeDUS9q2HSWMIEiTR-GZvoXWYGzvp-g/exec';
         try {
             const response = await fetch(scriptURL);
             const status = await response.json();
@@ -239,19 +247,21 @@
         
         const type = document.querySelector('input[name="temp"]:checked').value;
         const extra = document.querySelector('input[name="extra"]:checked').value;
+        const oat = document.querySelector('input[name="oat"]:checked').value;
         const sweetness = document.getElementById('sweetness').value;
         
         // Price Logic
         let finalPrice = basePrice;
         if (type === "Cold") finalPrice += 5;
         if (extra === "Yes") finalPrice += 5;
+        if (oat === "Yes") finalPrice += 5;
 
         // Update UI
         document.getElementById('sum-drink').innerText = drinkName;
-        document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness} | Extra Shot: ${extra}`;
+        document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness} | Extra Shot: ${extra} | Oat Milk: ${oat}`;
         document.getElementById('sum-total').innerText = `${finalPrice} baht`;
         
-        return { drinkName, type, extra, finalPrice };
+        return { drinkName, type, extra,oat, finalPrice };
     }
 
     // Initialize summary on load
@@ -263,11 +273,12 @@
         document.querySelector('input[name="extra"][value="No"]').checked = true;
         document.getElementById('sweetness').selectedIndex = 0;
         document.getElementById('notes').value = '';
+        document.querySelector('input[name="oat"][value="No"]').checked = true;
         
         updateSummary();
     }
     async function submitOrder() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxx13plSV36AcZYLVAX3r19S5hUnOqazmRerCNSnz4R86eiOO2y3rZCgOIOlxuSMt-uQw/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEe7hZVjMtQaDWyfNaQD_IsJGBWX6EvN7tRZWJeDUS9q2HSWMIEiTR-GZvoXWYGzvp-g/exec';
         const name = document.getElementById('customer-name').value;
         const summary = updateSummary(); // Your existing summary logic
     
@@ -303,6 +314,7 @@
             menuItem: summary.drinkName,
             type: summary.type,
             extraShot: summary.extra,
+            oatMilk: summary.oat,
             sweetness: document.getElementById('sweetness').value,
             notes: document.getElementById('notes').value,
             total: summary.finalPrice + " baht"
