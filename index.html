@@ -103,11 +103,12 @@
         
         <div class="menu-descriptions">
             <div class="desc-item"><strong>Our Menu</strong></div>
-            <div class="desc-item"><strong>🥛 Signature Latte :</strong> Sweetened with condensed milk for a smooth finish.</div>
+            <div class="desc-item"><strong>💊 Signature Latte :</strong> Sweetened with condensed milk for a smooth finish.</div>
             <div class="desc-item"><strong>🖤 Dark & Bold <i>(Cortado)</i> :</strong> A strong, straightforward kick for early class.</div>
-            <div class="desc-item"><strong>🧡 Thai-Style <i>(Es Yen)</i> :</strong> A nostalgic, extra-creamy local favorite with a bold kick and deep sweetness.</div>
+            <div class="desc-item"><strong>🍭 Thai-Style <i>(Es Yen)</i> :</strong> A nostalgic, extra-creamy local favorite with a bold kick and deep sweetness.</div>
             <div class="desc-item"><strong>☀️ Morning Black <i>(Americano)</i> :</strong> Pure caffeine for the early class. Clean, light, and effective.</div>
-            <div class="desc-item"><strong>💊 The Dopamine Loop <i>(Mocha)</i> :</strong> Our signature mocha designed for long study sessions.</div>
+            <div class="desc-item"><strong>🍫 The Dopamine Loop <i>(Mocha)</i> :</strong> Our signature mocha designed for long study sessions.</div>
+            <div class="desc-item"><strong>🥛 Fresh Milk :</strong> Pure, creamy fresh milk. A perfect non-caffeine comfort choice.</div>
         </div>
     </div>
     <div class="stock-indicator">
@@ -126,6 +127,7 @@
             <option value="Thai-Style" data-price="35">Thai-Style</option>
             <option value="Morning Black" data-price="20">Morning Black</option>
             <option value="The Dopamine Loop" data-price="35">The Dopamine Loop</option>
+            <option value="Fresh Milk" data-price="20">Fresh Milk</option>
         </select>
     </div>
 
@@ -158,6 +160,7 @@
         <select id="sweetness" onchange="updateSummary()">
             <option value="100%">Normal Sweet (100%)</option>
             <option value="50%">Less Sweet (50%)</option>
+            <option value="25%">Very Less Sweet (25%)</option>
             <option value="0%">No Sugar (0%)</option>
             <option value="125%">Extra Sweet (125%)</option>
         </select>
@@ -261,7 +264,7 @@
         document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness} | Extra Shot: ${extra} | Oat Milk: ${oat}`;
         document.getElementById('sum-total').innerText = `${finalPrice} baht`;
         
-        return { drinkName, type, extra,oat, finalPrice };
+        return { drinkName, type, extra, oat, finalPrice };
     }
 
     // Initialize summary on load
