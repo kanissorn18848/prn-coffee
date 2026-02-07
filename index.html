@@ -179,6 +179,9 @@
         <h3>Order Summary</h3>
         <div class="summary-item"><span>Drink:</span> <span id="sum-drink">-</span></div>
         <div class="summary-item"><span>Options:</span> <span id="sum-options">-</span></div>
+        <div class="summary-item"><span>Extra Shot:</span> <span id="sum-extra">-</span></div>
+        <div class="summary-item"><span>Oat Milk:</span> <span id="sum-oat">-</span></div>
+        
         <div class="summary-item" style="font-weight: bold; margin-top: 10px; border-top: 1px solid #ffffff55; padding-top: 5px;">
             <span>Total:</span> <span id="sum-total">0฿</span>
         </div>
@@ -257,11 +260,13 @@
         let finalPrice = basePrice;
         if (type === "Cold") finalPrice += 5;
         if (extra === "Yes") finalPrice += 5;
-        if (oat === "Yes") finalPrice += 5;
-
-        // Update UI
+        if (oat === "Yes") finalPrice += 5; // Add 5฿ for Oat Milk
+    
+        // Update UI - Each row gets its own data
         document.getElementById('sum-drink').innerText = drinkName;
-        document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness} | Extra Shot: ${extra} | Oat Milk: ${oat}`;
+        document.getElementById('sum-options').innerText = `${type} | Sweetness: ${sweetness}`;
+        document.getElementById('sum-extra').innerText = extra;
+        document.getElementById('sum-oat').innerText = oat;
         document.getElementById('sum-total').innerText = `${finalPrice} baht`;
         
         return { drinkName, type, extra, oat, finalPrice };
