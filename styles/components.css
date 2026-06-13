@@ -1,0 +1,95 @@
+.stock-indicator {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9em;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.summary-box {
+  background: #3182bd;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.summary-box h3 {
+  margin-top: 0;
+  font-size: 1.1em;
+  border-bottom: 1px solid #ffffff55;
+  padding-bottom: 5px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  margin: 5px 0;
+}
+
+.shop-info {
+  background: #fdfaf6;
+  border-left: 4px solid #6f4e37;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.hours {
+  color: #4a332d;
+  margin-bottom: 10px;
+}
+
+.explanation {
+  margin-bottom: 15px;
+  line-height: 1.4;
+  color: #555;
+}
+
+.menu-descriptions {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.desc-item {
+  margin-bottom: 5px;
+  color: #4b3621;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.open {
+  background-color: #4caf50;
+  box-shadow: 0 0 8px #4caf50;
+}
+
+.dot.closed {
+  background-color: #f44336;
+  box-shadow: 0 0 8px #f44336;
+}
+
+.text-closed {
+  color: #f44336;
+}
+
+.text-open {
+  color: #4caf50;
+}

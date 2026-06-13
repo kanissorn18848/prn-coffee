@@ -1,0 +1,34 @@
+button {
+  width: 100%;
+  background: #08519c;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #003468;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.clear-btn {
+  background: #e0e0e0;
+  color: #21224a;
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.clear-btn:hover {
+  background: #c0c0c0;
+}
