@@ -1,10 +1,14 @@
-const isShopOpen = false; // true = Open, false = Closed
-
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxEe7hZVjMtQaDWyfNaQD_IsJGBWX6EvN7tRZWJeDUS9q2HSWMIEiTR-GZvoXWYGzvp-g/exec";
 
+async function apiFetch(url, options) {
+  const response = await fetch(url, options);
+  if (options && options.mode === "no-cors") return null;
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  applyBusinessStatus();
   checkDailyStock();
   updateSummary();
 
@@ -23,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .querySelectorAll(
-      'input[name="temp"], input[name="extra"], input[name="oat"]',
+      'input[name="temp"], input[name="extra"], input[name="oat"], input[name="container"]',
     )
     .forEach((el) => el.addEventListener("change", updateSummary));
 });

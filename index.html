@@ -18,26 +18,17 @@
 
   <body>
     <div class="order-card">
-      <h2 style="text-align: center">☕ PRN Coffee</h2>
+      <h2 class="page-title">☕ PRN Coffee</h2>
       <p class="subheading">
         <i>Pro re nata</i>&nbsp; (Latin) "as needed"<br />
         PRN coffee - Personalized coffee as needed for you
       </p>
       <div class="status-container">
-        <span id="status-dot" class="dot"></span>
-        <span id="status-text">Open for order!</span>
+        <span id="status-dot" class="dot loading"></span>
+        <span id="status-text" class="text-loading">Checking status...</span>
       </div>
       <div class="shop-info">
-        <div class="hours">
-          <strong>🕒 Tomorrow's Schedule</strong> Class delivery ~ 10.00 am
-          <br />
-          📢
-          <i
-            >Now delivered in a bottle! (same taste, last longer, drink
-            anywhere)</i
-          >
-          🚀
-        </div>
+        <div class="hours" id="shop-hours"></div>
         <p class="explanation">
           Order before 11pm, then enjoy your coffee in class the next day!
           Payment on Delivery. Make sure you're not late to class :)
@@ -81,7 +72,12 @@
       </div>
       <div class="input-group">
         <label>Customer Name</label>
-        <input type="text" id="customer-name" placeholder="Enter your name" />
+        <input
+          type="text"
+          id="customer-name"
+          placeholder="Enter your name"
+          maxlength="100"
+        />
       </div>
 
       <div class="input-group">
@@ -112,6 +108,19 @@
       </div>
 
       <div class="input-group">
+        <label>Container</label>
+        <div class="radio-group">
+          <label
+            ><input type="radio" name="container" value="Bottle" checked />
+            Bottle</label
+          >
+          <label
+            ><input type="radio" name="container" value="Glass" /> Glass</label
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
         <label>Extra Shot?</label>
         <div class="radio-group">
           <label
@@ -124,7 +133,7 @@
       </div>
 
       <div class="input-group">
-        <label style="display: flex; align-items: center; gap: 6px">
+        <label class="oat-label">
           Change to Oat Milk?
           <img
             src="assets/oatside-logo.svg"
@@ -155,6 +164,7 @@
           type="text"
           id="notes"
           placeholder="Serve at the class etc. / For notifying pick-up point"
+          maxlength="300"
         />
       </div>
 
@@ -173,25 +183,30 @@
           <span>Options:</span> <span id="sum-options">-</span>
         </div>
         <div class="summary-item">
+          <span>Container:</span> <span id="sum-container">-</span>
+        </div>
+        <div class="summary-item">
           <span>Extra Shot:</span> <span id="sum-extra">-</span>
         </div>
         <div class="summary-item">
           <span>Oat Milk:</span> <span id="sum-oat">-</span>
         </div>
-        <div
-          class="summary-item"
-          style="
-            font-weight: bold;
-            margin-top: 10px;
-            border-top: 1px solid #ffffff55;
-            padding-top: 5px;
-          "
-        >
+        <div class="summary-item summary-total">
           <span>Total:</span> <span id="sum-total">0฿</span>
         </div>
       </div>
 
-      <button id="submit-btn">Place Order</button>
+      <input
+        type="text"
+        id="hp-field"
+        name="hp"
+        autocomplete="off"
+        style="display: none"
+        tabindex="-1"
+        aria-hidden="true"
+      />
+
+      <button id="submit-btn" disabled>Place Order</button>
     </div>
 
     <script src="scripts/stock.js"></script>

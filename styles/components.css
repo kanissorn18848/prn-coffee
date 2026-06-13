@@ -86,10 +86,36 @@
   box-shadow: 0 0 8px #f44336;
 }
 
+.dot.loading {
+  background-color: #f5a623;
+  box-shadow: 0 0 8px #f5a623;
+}
+
 .text-closed {
   color: #f44336;
 }
 
 .text-open {
   color: #4caf50;
+}
+
+.text-loading {
+  color: #f5a623;
+}
+
+.page-title {
+  text-align: center;
+}
+
+.oat-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-top: 10px;
+  border-top: 1px solid #ffffff55;
+  padding-top: 5px;
 }
