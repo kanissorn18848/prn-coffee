@@ -90,7 +90,6 @@ async function submitOrder() {
       oatMilk: summary.oat,
       sweetness: document.getElementById("sweetness").value,
       notes: sanitizeForSheets(document.getElementById("notes").value),
-      total: summary.finalPrice + " baht",
     };
 
     btn.innerText = "Finalizing Order...";
