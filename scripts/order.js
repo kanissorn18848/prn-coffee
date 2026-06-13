@@ -71,7 +71,7 @@ async function submitOrder() {
 
   const studentId = document.getElementById("student-id").value.trim();
   if (studentId && !/^[0-9]{7}$/.test(studentId)) {
-    alert("Student ID must be exactly 7 digits.");
+    alert("Student ID must be exactly 7 numeric digits (numbers only).");
     return;
   }
 
