@@ -1,9 +1,8 @@
 async function fetchStockStatus() {
-  const response = await fetch(SCRIPT_URL);
-  return response.json();
+  return apiFetch(SCRIPT_URL);
 }
 
-function applyBusinessStatus() {
+function applyBusinessStatus(isShopOpen) {
   const dot = document.getElementById("status-dot");
   const text = document.getElementById("status-text");
   const submitBtn = document.getElementById("submit-btn");
@@ -19,20 +18,32 @@ function applyBusinessStatus() {
     text.innerText = "Shop is closed 🙏";
     text.className = "text-closed";
     submitBtn.disabled = true;
-    submitBtn.style.background = "#ccc";
     submitBtn.innerText = "Orders Currently Disabled";
     stockDisplay.innerText = "We'll be back soon...";
   }
 }
 
-async function checkDailyStock() {
-  if (!isShopOpen) {
-    document.getElementById("cups-left").innerText = "We'll be back soon...";
-    return;
+function renderShopHours(schedule, announcement) {
+  const el = document.getElementById("shop-hours");
+  if (!el) return;
+  let html = "";
+  if (schedule) html += `<strong>🕒 Tomorrow's Schedule</strong> ${schedule}`;
+  if (announcement) {
+    if (schedule) html += "<br />";
+    html += `📢 <i>${announcement}</i> 🚀`;
   }
+  el.innerHTML = html;
+}
 
+async function checkDailyStock() {
   try {
     const status = await fetchStockStatus();
+
+    applyBusinessStatus(status.isShopOpen);
+    renderShopHours(status.schedule, status.announcement);
+
+    if (!status.isShopOpen) return;
+
     const display = document.getElementById("cups-left");
     const submitBtn = document.getElementById("submit-btn");
 
@@ -44,6 +55,8 @@ async function checkDailyStock() {
       display.innerText = `☕ ${status.remaining} cups left for tomorrow`;
     }
   } catch (e) {
-    console.log("Could not load stock status");
+    console.error("Could not load stock status", e);
+    applyBusinessStatus(false);
+    document.getElementById("cups-left").innerText = "Stock info unavailable";
   }
 }
