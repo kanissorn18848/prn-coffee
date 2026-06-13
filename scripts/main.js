@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("customer-name")
     .addEventListener("input", updateSummary);
   document
+    .getElementById("student-id")
+    .addEventListener("input", updateSummary);
+  document
     .getElementById("menu-item")
     .addEventListener("change", updateSummary);
   document

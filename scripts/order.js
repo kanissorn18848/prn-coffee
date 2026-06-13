@@ -36,6 +36,7 @@ function updateSummary() {
 
 function clearForm() {
   document.getElementById("customer-name").value = "";
+  document.getElementById("student-id").value = "";
   document.getElementById("menu-item").selectedIndex = 0;
   document.querySelector('input[name="temp"][value="Cold"]').checked = true;
   document.querySelector('input[name="container"][value="Bottle"]').checked =
@@ -68,6 +69,12 @@ async function submitOrder() {
     return;
   }
 
+  const studentId = document.getElementById("student-id").value.trim();
+  if (studentId && !/^[0-9]{7}$/.test(studentId)) {
+    alert("Student ID must be exactly 7 digits.");
+    return;
+  }
+
   const btn = document.getElementById("submit-btn");
   btn.innerText = "Verifying order status...";
   btn.disabled = true;
@@ -83,6 +90,7 @@ async function submitOrder() {
 
     const data = {
       customer: sanitizeForSheets(name),
+      studentId: sanitizeForSheets(studentId),
       menuItem: summary.drinkName,
       type: summary.type,
       container: summary.container,
