@@ -1,0 +1,52 @@
+body {
+  font-family: "Noto Sans", sans-serif;
+  padding: 20px;
+  background: #c6dbef;
+  color: #21224a;
+}
+
+.order-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  max-width: 450px;
+  margin: auto;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.subheading {
+  text-align: center;
+  font-size: 0.9em;
+  color: #3c4093;
+  margin-top: -15px;
+  margin-bottom: 25px;
+  font-weight: 400;
+}
